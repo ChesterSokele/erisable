@@ -1,0 +1,4 @@
+/*    /index.html   200
+
+# Redirect from Netlify subdomain to custom domain (when you get one)
+# https://erisablesafaris.netlify.app/* https://erisablesafaris.com/:splat 301!
