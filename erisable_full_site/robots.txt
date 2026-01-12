@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-
-# Sitemap location
-Sitemap: https://erisablesafaris.netlify.app/sitemap.xml
-
-# Disallow admin pages (if you add them later)
-# Disallow: /admin/
-# Disallow: /private/
