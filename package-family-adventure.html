@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Namibia Family Adventure - Erisable Safaris</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="description" content="Family-friendly Namibia safari designed for comfort, safety, and flexible pacing.">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <div class="brand-container">
+        <div class="logo-frame">
+          <img src="images/logo.png" alt="Erisable Safaris Logo" class="brand-logo">
+        </div>
+        <a class="brand" href="index.html">Erisable Safaris</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tours.html">Day Tours</a></li>
+        <li><a href="packages.html">Packages</a></li>
+        <li><a href="contact.html" class="cta">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="package-detail-header" style="background-image: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+      <h1>Namibia Family Adventure</h1>
+      <p>Kid-friendly safari experiences</p>
+      <div class="package-badges">
+        <span class="badge badge-green">Family Friendly</span>
+        <span class="badge">Flexible Duration</span>
+      </div>
+    </div>
+
+    <div class="tour-detail-grid">
+      <div class="tour-details">
+        <div class="package-summary">
+          <h2>Family Safari Overview</h2>
+          <p>A family-friendly safari designed with comfort, safety, and flexible pacing for all ages.</p>
+          
+          <div class="package-summary-grid grid-cols-4">
+            <div class="summary-item">
+              <i class="fas fa-child"></i>
+              <div>
+                <strong>Perfect For:</strong>
+                <p>Families with kids</p>
+              </div>
+            </div>
+            <div class="summary-item">
+              <i class="fas fa-home"></i>
+              <div>
+                <strong>Accommodation:</strong>
+                <p>Family Suites</p>
+              </div>
+            </div>
+            <div class="summary-item">
+              <i class="fas fa-shield-alt"></i>
+              <div>
+                <strong>Focus:</strong>
+                <p>Safety & Comfort</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="package-inclusions grid-cols-2">
+          <div class="inclusion-card">
+            <h3><i class="fas fa-check-circle text-green"></i> Family Features</h3>
+            <ul>
+              <li>Family-suitable accommodation</li>
+              <li>Flexible daily schedules</li>
+              <li>Child-friendly guides</li>
+              <li>Shorter driving distances</li>
+              <li>Kid-friendly activities</li>
+              <li>Safety-focused planning</li>
+            </ul>
+          </div>
+
+          <div class="inclusion-card">
+            <h3><i class="fas fa-star text-brown"></i> Kid Activities</h3>
+            <ul>
+              <li>Junior ranger programs</li>
+              <li>Animal tracking lessons</li>
+              <li>Star gazing sessions</li>
+              <li>Swimming pool access</li>
+              <li>Educational materials</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tour-highlights">
+          <h3><i class="fas fa-map-marked-alt text-green"></i> Family Highlights</h3>
+          <ul>
+            <li>Etosha waterhole viewing (from vehicle)</li>
+            <li>Quivertree Forest exploration</li>
+            <li>Swakopmund beach activities</li>
+            <li>Desert adapted wildlife spotting</li>
+            <li>Cultural village visits</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="booking-sidebar">
+        <div class="price-card">
+          <div class="price-header">
+            <h3>Family Safari Planning</h3>
+          </div>
+          
+          <div class="price-details">
+            <div class="detail-item">
+              <i class="fas fa-users text-green"></i>
+              <span><strong>Ideal for:</strong> Families with children</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-clock text-green"></i>
+              <span><strong>Duration:</strong> 10-14 days recommended</span>
+            </div>
+          </div>
+
+          <div class="quick-booking-form">
+            <h4>Family Enquiry</h4>
+            <form action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value="d9c51d90-9cf6-43a8-9d60-af3de04fbab6">
+              <input type="hidden" name="subject" value="Family Safari Enquiry">
+              <input type="checkbox" name="botcheck" class="hidden">
+              
+              <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Parent Name *" required>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="number" name="adults" class="form-control" placeholder="Adults *" min="1" required>
+                </div>
+                <div class="form-group">
+                  <input type="number" name="children" class="form-control" placeholder="Children" min="0">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="number" name="ages" class="form-control" placeholder="Children Ages" min="0" max="18">
+                </div>
+                <div class="form-group">
+                  <select name="duration" class="form-control">
+                    <option value="">Preferred Duration</option>
+                    <option value="7">7 Days</option>
+                    <option value="10">10 Days</option>
+                    <option value="14">14 Days</option>
+                  </select>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn btn-block">
+                <i class="fas fa-child"></i> Plan Family Trip
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a href="https://wa.me/264814599505" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Erisable Safaris & Tours</h3>
+      </div>
+      <div>
+        <p><a href="https://wa.me/264814599505">Family safari questions?</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> Erisable Safaris</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
