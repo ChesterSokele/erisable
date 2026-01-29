@@ -1,45 +1,51 @@
-// small helpers for nav toggles (each page uses a separate toggle id)
-function wireNav(toggleId, linksId){
-  const t = document.getElementById(toggleId);
-  const l = document.getElementById(linksId);
-  if(!t || !l) return;
-  t.addEventListener('click', ()=>{
-    l.style.display = l.style.display === 'flex' ? 'none' : 'flex';
+// ===========================================
+// CORE UTILITIES
+// ===========================================
+
+/**
+ * Initialize mobile navigation toggle
+ */
+function initMobileNavigation() {
+  const navToggles = document.querySelectorAll('.nav-toggle');
+  const navLinks = document.querySelectorAll('.nav-links');
+  
+  navToggles.forEach((toggle, index) => {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const links = navLinks[index];
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    navLinks.forEach(links => {
+      if (links.style.display === 'flex' && 
+          !links.contains(e.target) && 
+          !Array.from(navToggles).some(toggle => toggle.contains(e.target))) {
+        links.style.display = 'none';
+      }
+    });
   });
 }
-wireNav('nav-toggle','nav-links');
-wireNav('nav-toggle-2','nav-links-2');
-wireNav('nav-toggle-3','nav-links-3');
-wireNav('nav-toggle-4','nav-links-4');
-wireNav('nav-toggle-5','nav-links-5');
-wireNav('nav-toggle-6','nav-links-6');
 
-// Footer year fillers
-const years = ['year','year2','year3','year4','year5','year6'];
-years.forEach(id => { const el = document.getElementById(id); if(el) el.textContent = new Date().getFullYear(); });
+/**
+ * Update copyright year in footer
+ */
+function updateCopyrightYear() {
+  const yearElements = document.querySelectorAll('[id*="year"]');
+  const currentYear = new Date().getFullYear();
+  
+  yearElements.forEach(el => {
+    if (el.id.includes('year')) {
+      el.textContent = currentYear;
+    }
+  });
+}
 
-// Slideshow logic for home page
-(function(){
-  const slideshow = document.getElementById('slideshow');
-  if(!slideshow) return;
-  const slides = Array.from(slideshow.children);
-  let idx = 0;
-  function show(i){
-    slides.forEach((s,si)=>{
-      s.style.transform = `translateX(${(si-i)*100}%)`;
-    });
-  }
-  show(0);
-  const nextBtn = document.getElementById('next');
-  const prevBtn = document.getElementById('prev');
-  nextBtn?.addEventListener('click', ()=>{ idx = (idx+1)%slides.length; show(idx); });
-  prevBtn?.addEventListener('click', ()=>{ idx = (idx-1+slides.length)%slides.length; show(idx); });
-  // auto play every 6 seconds
-  setInterval(()=>{ idx = (idx+1)%slides.length; show(idx); }, 6000);
-})();
-
-
-// Web3Forms Submission Handler
+/**
+ * Initialize Web3Forms submission handlers
+ */
 function initWeb3Forms() {
   const forms = document.querySelectorAll('form[action*="web3forms.com"]');
   
@@ -68,9 +74,7 @@ function initWeb3Forms() {
         const response = await fetch(this.action, {
           method: 'POST',
           body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
+          headers: { 'Accept': 'application/json' }
         });
         
         const result = await response.json();
@@ -87,9 +91,7 @@ function initWeb3Forms() {
           
           // Auto-hide success message after 8 seconds
           setTimeout(() => {
-            if (formStatus) {
-              formStatus.style.display = 'none';
-            }
+            if (formStatus) formStatus.style.display = 'none';
           }, 8000);
         } else {
           // Error
@@ -116,54 +118,39 @@ function initWeb3Forms() {
   });
 }
 
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  initWeb3Forms();
+// ===========================================
+// COMPONENT INITIALIZERS
+// ===========================================
+
+/**
+ * Create and add WhatsApp floating button
+ */
+function initWhatsAppButton() {
+  if (document.querySelector('.whatsapp-float')) return;
   
-  // Also re-initialize if navigating between pages
-  if (window.history.pushState) {
-    const originalPushState = history.pushState;
-    history.pushState = function() {
-      originalPushState.apply(this, arguments);
-      setTimeout(initWeb3Forms, 100);
-    };
-  }
-});
+  const whatsappButton = document.createElement('a');
+  whatsappButton.href = 'https://wa.me/+264814599505';
+  whatsappButton.className = 'whatsapp-float';
+  whatsappButton.target = '_blank';
+  whatsappButton.setAttribute('aria-label', 'Chat on WhatsApp');
+  whatsappButton.innerHTML = '<i class="fab fa-whatsapp"></i><span class="whatsapp-tooltip">Chat with us!</span>';
+  document.body.appendChild(whatsappButton);
+}
 
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(e) {
-  const navLinks = document.querySelectorAll('.nav-links');
-  const navToggles = document.querySelectorAll('.nav-toggle');
-  
-  navLinks.forEach(links => {
-    if (links.style.display === 'flex' && !links.contains(e.target) && 
-        !Array.from(navToggles).some(toggle => toggle.contains(e.target))) {
-      links.style.display = 'none';
-    }
-  });
-});
-
-// WhatsApp Button
-const whatsappButton = document.createElement('a');
-whatsappButton.href = 'https://wa.me/+264814599505';
-whatsappButton.className = 'whatsapp-float';
-whatsappButton.target = '_blank';
-whatsappButton.setAttribute('aria-label', 'Chat on WhatsApp');
-whatsappButton.innerHTML = '<i class="fab fa-whatsapp"></i><span class="whatsapp-tooltip">Chat with us!</span>';
-document.body.appendChild(whatsappButton);
-
-// Scroll Animation Observer
+/**
+ * Initialize scroll animations
+ */
 function initScrollAnimations() {
-  // Elements to animate
   const animatedElements = document.querySelectorAll(
     '.hero, .features, .tour-preview, .testimonials, ' +
     '.tour-list, .rental-grid, .masonry, .contact-grid, ' +
     '.booking-form, .page-hero, .about-grid, .icons-grid, ' +
     '.rental-info, .feature, .card, .tour-item, ' +
-    '.rental-card, .contact-card, .gallery-item'
+    '.rental-card, .contact-card, .gallery-item, .package-card'
   );
 
-  // Create Intersection Observer
+  if (!animatedElements.length) return;
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -171,35 +158,191 @@ function initScrollAnimations() {
       }
     });
   }, {
-    threshold: 0.1, // Trigger when 10% visible
-    rootMargin: '0px 0px -50px 0px' // Adjust trigger point
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
   });
 
-  // Observe each element
   animatedElements.forEach(el => {
     observer.observe(el);
   });
 
-  // Add scroll-animate class to specific elements for staggered animations
-  document.querySelectorAll('.feature, .card, .tour-item, .rental-card, .contact-card, .gallery-item').forEach((el, index) => {
+  // Add staggered animations
+  document.querySelectorAll('.feature, .card, .tour-item, .rental-card, .contact-card, .gallery-item, .package-card').forEach((el, index) => {
     el.classList.add('scroll-animate');
     if (index % 3 === 1) el.classList.add('delay-1');
     if (index % 3 === 2) el.classList.add('delay-2');
   });
 }
 
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', initScrollAnimations);
-
-// Re-initialize on page navigation (for SPA-like behavior)
-if (window.history.pushState) {
-  const originalPushState = history.pushState;
-  history.pushState = function() {
-    originalPushState.apply(this, arguments);
-    setTimeout(initScrollAnimations, 100);
-  };
-
-  window.addEventListener('popstate', () => {
-    setTimeout(initScrollAnimations, 100);
+/**
+ * Initialize slideshow functionality
+ */
+function initSlideshow() {
+  const slideshow = document.getElementById('slideshow');
+  if (!slideshow) return;
+  
+  const slides = Array.from(slideshow.children);
+  let currentSlide = 0;
+  let autoPlayInterval;
+  
+  function showSlide(index) {
+    currentSlide = (index + slides.length) % slides.length;
+    slideshow.style.transform = `translateX(-${currentSlide * 100}%)`;
+  }
+  
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+  }
+  
+  function prevSlide() {
+    showSlide(currentSlide - 1);
+  }
+  
+  function startAutoPlay() {
+    autoPlayInterval = setInterval(nextSlide, 6000);
+  }
+  
+  function resetAutoPlay() {
+    clearInterval(autoPlayInterval);
+    startAutoPlay();
+  }
+  
+  // Event listeners
+  const nextBtn = document.getElementById('next');
+  const prevBtn = document.getElementById('prev');
+  
+  nextBtn?.addEventListener('click', () => {
+    nextSlide();
+    resetAutoPlay();
   });
+  
+  prevBtn?.addEventListener('click', () => {
+    prevSlide();
+    resetAutoPlay();
+  });
+  
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  slideshow.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  slideshow.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+      resetAutoPlay();
+    }
+  }
+  
+  // Initialize
+  showSlide(0);
+  startAutoPlay();
+  
+  // Pause on hover
+  slideshow.addEventListener('mouseenter', () => {
+    clearInterval(autoPlayInterval);
+  });
+  
+  slideshow.addEventListener('mouseleave', () => {
+    startAutoPlay();
+  });
+}
+
+/**
+ * Initialize package filtering
+ */
+function initPackageFilter() {
+  const filterButtons = document.querySelectorAll('.category-btn');
+  const packageCards = document.querySelectorAll('.package-card');
+  
+  if (!filterButtons.length || !packageCards.length) return;
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      // Add active class to clicked button
+      button.classList.add('active');
+      
+      const filterValue = button.getAttribute('data-category');
+      
+      // Filter packages
+      packageCards.forEach(card => {
+        if (filterValue === 'all' || card.getAttribute('data-category').includes(filterValue)) {
+          card.style.display = 'block';
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 10);
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+}
+
+// ===========================================
+// PAGE INITIALIZATION
+// ===========================================
+
+/**
+ * Initialize all page functionality
+ */
+function initializePage() {
+  // Core utilities
+  initMobileNavigation();
+  updateCopyrightYear();
+  initWeb3Forms();
+  initWhatsAppButton();
+  initScrollAnimations();
+  
+  // Page-specific components
+  initSlideshow();
+  initPackageFilter();
+  
+  // Handle SPA-like navigation
+  if (window.history.pushState) {
+    const originalPushState = history.pushState;
+    history.pushState = function() {
+      originalPushState.apply(this, arguments);
+      setTimeout(initializePage, 100);
+    };
+    
+    window.addEventListener('popstate', () => {
+      setTimeout(initializePage, 100);
+    });
+  }
+}
+
+// ===========================================
+// DOCUMENT READY
+// ===========================================
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializePage);
+
+// Fallback for legacy browsers
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializePage);
+} else {
+  initializePage();
 }
